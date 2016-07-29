@@ -1,10 +1,10 @@
 # Flask-PubSub
 
 // Todo
-[![Build Status](https://travis-ci.org/flask-pubsub/flask-pubsub.svg?branch=master)](http://travis-ci.org/flask-restful/flask-restful)
-[![Coverage Status](http://img.shields.io/coveralls/flask-pubsub/flask-pubsub/master.svg)](https://coveralls.io/r/flask-restful/flask-restful)
-[![PyPI Version](http://img.shields.io/pypi/v/Flask-PubSub.svg)](https://pypi.python.org/pypi/Flask-RESTful)
-[![PyPI Downloads](http://img.shields.io/pypi/dm/Flask-PubSub.svg)](https://pypi.python.org/pypi/Flask-RESTful)
+[![Build Status](https://travis-ci.org/flask-pubsub/flask-pubsub.svg?branch=master)](http://travis-ci.org/flask-pubsub/flask-pubsub)
+[![Coverage Status](http://img.shields.io/coveralls/flask-pubsub/flask-pubsub/master.svg)](https://coveralls.io/r/flask-pubsub/flask-pubsub)
+[![PyPI Version](http://img.shields.io/pypi/v/Flask-PubSub.svg)](https://pypi.python.org/pypi/Flask-PubSub)
+[![PyPI Downloads](http://img.shields.io/pypi/dm/Flask-PubSub.svg)](https://pypi.python.org/pypi/Flask-PubSub)
 
 Flask-PubSub provides you with the blocks to implement the publish-subscribe pattern.
 
