@@ -5,6 +5,9 @@ from flask import current_app
 __version__ = '0.1'
 
 class AwsSns(object):
+    """
+    Faciliate pub/sub with AWS SNS Service
+    """
 
     def __init__(self, aws_access_key, aws_secret_key, aws_region):
         """
@@ -41,6 +44,21 @@ class AwsSns(object):
             raise AwsSnsError("Unable to create AWS session: {}".format(e.message))
 
     def publish_message(self, **kwargs):
+        """
+        Publish a message to a SNS Topic
+        http://boto3.readthedocs.io/en/latest/reference/services/sns.html#SNS.Client.publish
+        :param TopicArn: string semi-optional
+        :param TargetArn: string semi-optional
+        :param PhoneNumber: string semi-optional
+        :param Message: string required
+        :param Subject: string
+        :param MessageStructure: string | if == json : Message == {"default": "foo", "somekey": "bar"}
+        :param MessageAttributes: dict
+        :return: MessageId || Error
+
+        example:
+          sns.publish_message(json.dumps({'default': 'foo', 'email': 'bar'}))
+        """
         topic_arn = kwargs.get('TopicArn')
         target_arn = kwargs.get('TargetArn')
         phone_number = kwargs.get('PhoneNumber')
@@ -57,6 +75,9 @@ class AwsSns(object):
            raise AwsSnsError("TopicArn, TargetArn or PhoneNumber is required")
 
 class AwsSnsError(Exception):
+    """
+    Handle AwsSns Class Errors
+    """
 
     def __init__(self, error):
         self.error = error
@@ -68,6 +89,9 @@ class AwsSnsError(Exception):
         return '{}'.format(self.error)
 
 class RedisPs(object):
+    """
+    Todo: Implement
+    """
 
     def __init__(self):
         pass
