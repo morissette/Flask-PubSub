@@ -85,12 +85,30 @@ class AwsSns(object):
 	"""
 	current_app.add_url_rule('/subscribe', view_func=self.subscription_endpoint)
 
-    def subscription_endpoint(self):
+    def subscription_endpoint(self, headers, data):
 	"""
-	Hanled requests from SNS
+	Handle requests from SNS
+	:param headers: request.headers
+	:param data: request.get_json(force=True)
+	:return: True
 	"""
-	headers = request.headers
-	data = request.get_json(force=True)
+	if self.is_valid_message(data):
+            message_type = headers.get('x-amz-sns-message-type:')
+            if message_type == 'SubscriptionConfirmation':
+                subscription_confirmation_url = data.get('SubscribeURL')
+                response = requests.get(subscription_confirmation_url)
+                if response.status_code == 200:
+                    return True
+		else:
+		    raise AwsSnsError("Confirmation of subscription failed")
+            elif message_type == 'Notification':
+                message = data.get('Message')
+                if message:
+                    return message
+                else:
+		    raise AwsSnsError("No message received from notification")
+        else:
+	    raise AwsSnsError("SNS validation failed")
 
     def is_valid_message(self, msg):
 	if msg[u'SignatureVersion'] != '1':
