@@ -23,7 +23,9 @@ setup(
     platforms='any',
     install_requires=[
         'Flask',
-	'boto3'
+	'boto3',
+        'requests',
+        'M2Crypto'
     ],
     classifiers=[
         'Environment :: Web Environment',
