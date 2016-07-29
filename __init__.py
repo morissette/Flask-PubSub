@@ -92,7 +92,7 @@ class AwsSns(object):
 	headers = request.headers
 	data = request.get_json(force=True)
 
-    def is_valid_message(self, data):
+    def is_valid_message(self, msg):
 	if msg[u'SignatureVersion'] != '1':
 	    raise Exception('Wrong signature version')
 
