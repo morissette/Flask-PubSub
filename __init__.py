@@ -45,7 +45,7 @@ class AwsSns(object):
 	    session = Session(self.aws_creds)
 	    return session
 	except ClientError as e:
-	    raise AwsSnsError("Unable to create AWS session: {}".format(e.message))
+	    raise FlaskPsError("Unable to create AWS session: {}".format(e.message))
 
     def publish_message(self, **kwargs):
 	"""
@@ -75,9 +75,9 @@ class AwsSns(object):
 		if response.get('MessageId'):
 		    return response.get('MessageId')
 	    except ClientError as e:
-		raise AwsSnsError(e.message)
+		raise FlaskPsError(e.message)
 	else:
-	    raise AwsSnsError("TopicArn, TargetArn or PhoneNumber is required")
+	    raise FlaskPsError("TopicArn, TargetArn or PhoneNumber is required")
 
     def subsciption_handler(self):
 	"""
@@ -90,7 +90,7 @@ class AwsSns(object):
 	Handle requests from SNS
 	:param headers: request.headers
 	:param data: request.get_json(force=True)
-	:return: True
+	:return: True || Message data
 	"""
 	if self.is_valid_message(data):
             message_type = headers.get('x-amz-sns-message-type:')
@@ -100,15 +100,15 @@ class AwsSns(object):
                 if response.status_code == 200:
                     return True
 		else:
-		    raise AwsSnsError("Confirmation of subscription failed")
+		    raise FlaskPsError("Confirmation of subscription failed")
             elif message_type == 'Notification':
                 message = data.get('Message')
                 if message:
                     return message
                 else:
-		    raise AwsSnsError("No message received from notification")
+		    raise FlaskPsError("No message received from notification")
         else:
-	    raise AwsSnsError("SNS validation failed")
+	    raise FlaskPsError("SNS validation failed")
 
     def is_valid_message(self, msg):
 	if msg[u'SignatureVersion'] != '1':
@@ -137,7 +137,7 @@ class AwsSns(object):
         else:
 	    return True
 
-class AwsSnsError(Exception):
+class FlaskPsError(Exception):
     """
     Handle AwsSns Class Errors
     """
@@ -146,15 +146,7 @@ class AwsSnsError(Exception):
 	self.error = error
 
     def __repr__(self):
-	return 'AwsSnsError: {}'.format(self.error)
+	return 'FlaskPsError: {}'.format(self.error)
 
     def __str__(self):
 	return '{}'.format(self.error)
-
-class RedisPs(object):
-    """
-    Todo: Implement
-    """
-
-    def __init__(self):
-	pass
